@@ -10,9 +10,16 @@ def index():
 
 @app.route("/", methods=["POST"])
 def process_login():
-    return render_template("login.html")
+    username = request.form.get("username")
+    password = request.form.get("password")
 
-@app.route("/youshouldprobablychangethisurl")
+    if model.authenticate(username, password):
+        flash("User authenticated!")
+    else:
+        flash('Password incorrect!')
+    return redirect(url_for("index"))
+
+@app.route("/register")
 def register():
     return render_template("register.html")
 
